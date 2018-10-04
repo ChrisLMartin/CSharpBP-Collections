@@ -82,7 +82,7 @@ namespace Acme.Biz.Tests
             var product = new Product(1, "Saw", "");
             var expected = new OperationResult<bool>(true,
                 "Order from Acme, Inc\r\nProduct: Saw\r\nQuantity: 12" +
-                "\r\nDeliver By: " + new DateTime(2018,10,25).ToString("d") +
+                "\r\nDeliver By: " + new DateTime(2018, 10, 25).ToString("d") +
                 "\r\nInstructions: standard delivery");
 
             // Act
@@ -141,6 +141,60 @@ namespace Acme.Biz.Tests
 
             // Assert
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void SendEmailTest()
+        {
+            //Arrange
+            var vendorRepository = new VendorRepository();
+            var vendorsCollection = vendorRepository.Retrieve();
+            var expected = new List<string>()
+                { "Message sent: Important message for: ABC Corp",
+                  "Message sent: Important message for: XYZ Inc"};
+            var vendors = vendorsCollection.ToList();
+
+            //Act
+            var actual = Vendor.SendEmail(vendors, "Test Message");
+
+            //Assert
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void SendEmailTestArray()
+        {
+            //Arrange
+            var vendorRepository = new VendorRepository();
+            var vendorsCollection = vendorRepository.Retrieve();
+            var expected = new List<string>()
+                { "Message sent: Important message for: ABC Corp",
+                  "Message sent: Important message for: XYZ Inc"};
+            var vendors = vendorsCollection.ToArray();
+
+            //Act
+            var actual = Vendor.SendEmail(vendors, "Test Message");
+
+            //Assert
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void SendEmailTestDictionary()
+        {
+            //Arrange
+            var vendorRepository = new VendorRepository();
+            var vendorsCollection = vendorRepository.Retrieve();
+            var expected = new List<string>()
+                { "Message sent: Important message for: ABC Corp",
+                  "Message sent: Important message for: XYZ Inc"};
+            var vendors = vendorsCollection.ToDictionary(v => v.CompanyName);
+
+            //Act
+            var actual = Vendor.SendEmail(vendors.Values, "Test Message");
+
+            //Assert
+            CollectionAssert.AreEqual(expected, actual);
         }
     }
 }

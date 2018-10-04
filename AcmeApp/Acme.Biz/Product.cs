@@ -1,10 +1,6 @@
 ﻿using Acme.Common;
-using static Acme.Common.LoggingService;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Acme.Biz
 {
@@ -16,30 +12,32 @@ namespace Acme.Biz
         #region Constructors
         public Product()
         {
-            //var colorOptions = new string[4];
-            //colorOptions[0] = "Red";
-            //colorOptions[1] = "Espresso";
-            //colorOptions[2] = "White";
-            //colorOptions[3] = "Navy";
+            #region Generic List
+            //colorOptions.Add("Red");
+            //colorOptions.Add("Espresso");
+            //colorOptions.Add("White");
+            //colorOptions.Add("Navy");
+            //colorOptions.Insert(2, "Purple");
+            //colorOptions.Remove("Navy"); // slow, sequential search required
 
-            string[] colorOptions = { "Red", "Espresso", "White", "Navy" };
-            
-            var brownindex = Array.IndexOf(colorOptions, "Espresso");
-
-            colorOptions.SetValue("Blue", 3);
-            
-            for (int i = 0; i < colorOptions.Length; i++)
-            {
-                colorOptions[i] = colorOptions[i].ToLower();
-                Console.WriteLine($"The color is {colorOptions[i]}");
-            }
-
-            foreach (var color in colorOptions)
-            {
-                Console.WriteLine($"The color is {color}");
-            }
+            var colorOptions = new List<string>() { "Red", "Espresso", "White", "Navy" };
 
             Console.WriteLine(colorOptions);
+            #endregion
+
+            //var states = new Dictionary<string, string>();
+            //states.Add("CA", "California");
+            //states.Add("WA", "Washington");
+            //states.Add("NY", "New York");
+
+            var states = new Dictionary<string, string>()
+            {
+                { "CA", "California" },
+                { "WA", "Washington" },
+                { "NY", "New York" },
+            };
+
+            Console.WriteLine(states);
         }
         public Product(int productId,
                         string productName,
@@ -63,7 +61,8 @@ namespace Acme.Biz
         private string productName;
         public string ProductName
         {
-            get {
+            get
+            {
                 var formattedValue = productName?.Trim();
                 return formattedValue;
             }
@@ -89,7 +88,8 @@ namespace Acme.Biz
         private Vendor productVendor;
         public Vendor ProductVendor
         {
-            get {
+            get
+            {
                 if (productVendor == null)
                 {
                     productVendor = new Vendor();
@@ -126,7 +126,7 @@ namespace Acme.Biz
             return operationResult;
 
         }
-             
+
 
         public override string ToString()
         {
